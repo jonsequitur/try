@@ -1,0 +1,32 @@
+body {
+    padding-top: 54px;
+  }
+  .jumbotron {
+      background-color: white;
+  }
+  @media (min-width: 992px) {
+    body {
+      padding-top: 56px;
+    }
+  }
+  .keyboard h1{
+    overflow: hidden; 
+    border-right: .15em solid blue; 
+    white-space: nowrap; 
+    margin: 0 auto; 
+    letter-spacing: .15em; 
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+  }
+  @keyframes typing{
+      from { width: 0 }
+      to { width: 100% }
+  }
+  @keyframes blinking-cursor{
+      from, to { border-color: transparent }
+      50% { border-color: blue;}
+
+  }
+  .card {
+    height: 100%;
+  }
+  
