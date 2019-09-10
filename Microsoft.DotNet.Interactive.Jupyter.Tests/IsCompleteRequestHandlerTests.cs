@@ -26,8 +26,8 @@ namespace Microsoft.DotNet.Interactive.Jupyter.Tests
             var scheduler = CreateScheduler();
             var request = Message.Create(new IsCompleteRequest("var a = 12;"), null);
 
-            await scheduler.Schedule(new JupyterRequestContext(_serverChannel, _ioPubChannel, request, _kernelStatus));
-            await _kernelStatus.Idle();
+            await scheduler.Schedule(new JupyterRequestContext(_serverChannel, _ioPubChannel, request));
+            await _kernel.Idle();
 
             Logger.Log.Info("DecodedMessages: {messages}", _serverRecordingSocket.DecodedMessages);
 
@@ -47,8 +47,8 @@ namespace Microsoft.DotNet.Interactive.Jupyter.Tests
         {
             var scheduler = CreateScheduler();
             var request = Message.Create(new IsCompleteRequest("var a = 12"), null);
-            await scheduler.Schedule(new JupyterRequestContext(_serverChannel, _ioPubChannel, request, _kernelStatus));
-            await _kernelStatus.Idle();
+            await scheduler.Schedule(new JupyterRequestContext(_serverChannel, _ioPubChannel, request));
+            await _kernel.Idle();
             _serverRecordingSocket.DecodedMessages.SingleOrDefault(message =>
                                                                        message.Contains(MessageTypeValues.IsCompleteReply))
                                   .Should()
