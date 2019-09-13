@@ -218,7 +218,7 @@ namespace Microsoft.DotNet.Interactive
             {
                 invocationContext.Publish(
                     new DisplayedValueProduced(
-                        displayValue.FormattedValue,
+                        displayValue.Value,
                         displayValue,
                         formattedValues: new[] { displayValue.FormattedValue },
                         valueId: displayValue.ValueId));
@@ -238,7 +238,7 @@ namespace Microsoft.DotNet.Interactive
             {
                 invocationContext.Publish(
                     new DisplayedValueUpdated(
-                        displayedValue.FormattedValue,
+                        displayedValue.Value,
                         valueId: displayedValue.ValueId,
                         command: displayedValue,
                         formattedValues: new[] { displayedValue.FormattedValue }
