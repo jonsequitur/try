@@ -6,6 +6,7 @@ using Clockwise;
 using FluentAssertions;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions.Extensions;
 using Microsoft.DotNet.Interactive.Jupyter.Protocol;
 using Pocket;
 using Recipes;
@@ -25,9 +26,10 @@ namespace Microsoft.DotNet.Interactive.Jupyter.Tests
         {
             var scheduler = CreateScheduler();
             var request = Message.Create(new IsCompleteRequest("var a = 12;"), null);
+            var context = new JupyterRequestContext(_serverChannel, _ioPubChannel, request);
 
-            await scheduler.Schedule(new JupyterRequestContext(_serverChannel, _ioPubChannel, request));
-            await _kernel.Idle();
+            await scheduler.Schedule(context);
+            await context.Done().Timeout(5.Seconds());
 
             Logger.Log.Info("DecodedMessages: {messages}", _serverRecordingSocket.DecodedMessages);
 
@@ -47,8 +49,11 @@ namespace Microsoft.DotNet.Interactive.Jupyter.Tests
         {
             var scheduler = CreateScheduler();
             var request = Message.Create(new IsCompleteRequest("var a = 12"), null);
-            await scheduler.Schedule(new JupyterRequestContext(_serverChannel, _ioPubChannel, request));
-            await _kernel.Idle();
+            var context = new JupyterRequestContext(_serverChannel, _ioPubChannel, request);
+
+            await scheduler.Schedule(context);
+            await context.Done().Timeout(5.Seconds());
+
             _serverRecordingSocket.DecodedMessages.SingleOrDefault(message =>
                                                                        message.Contains(MessageTypeValues.IsCompleteReply))
                                   .Should()
