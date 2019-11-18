@@ -40,9 +40,10 @@ namespace Microsoft.DotNet.Interactive
             {
                 Logger.Log.Info("Probing: {dir}", dir);
 
-                if (assemblyFile.FullName.Contains(dir.FullName))
+                // TBD:  we probably need to verify duplicate events
+                if (assemblyFile.FullName.StartsWith(dir.FullName))
                 {
-                    _resolvers.Add(assemblyFile.FullName, reference);
+                    _resolvers[assemblyFile.FullName] = reference;
                 }
             }
         }
